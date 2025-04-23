@@ -7,14 +7,6 @@ export const ProductView: React.FC = () => {
         products,
         loading,
         apiError,
-        formData,
-        validationErrors,
-        selectedProduct,
-        handleInputChange,
-        handleSubmit,
-        selectProductForEdit,
-        handleDelete,
-        resetForm,
         sortField,
         sortDirection,
         handleSort
@@ -27,8 +19,6 @@ export const ProductView: React.FC = () => {
 
     return (
         <div className="product-page">
-            {/* <h1>Produkt Administration</h1> */}
-            
             {/* Fejlmeddelelser */}
             {apiError && (
                 <div className="error-message">
@@ -37,73 +27,6 @@ export const ProductView: React.FC = () => {
             )}
 
             {/* Produkt formular */}
-
-            {/* <div className="product-form-container">
-                <h2>{selectedProduct ? 'Rediger Produkt' : 'Opret Nyt Produkt'}</h2>
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit();
-                }} className="product-form">
-                    <div className="form-group">
-                        <label htmlFor="name">Produktnavn:</label>
-                        <input
-                            id="name"
-                            type="text"
-                            value={formData.name}
-                            onChange={(e) => handleInputChange('name', e.target.value)}
-                            className={validationErrors.name ? 'error' : ''}
-                        />
-                        {validationErrors.name && (
-                            <span className="error-text">{validationErrors.name}</span>
-                        )}
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="price">Pris (DKK):</label>
-                        <input
-                            id="price"
-                            type="number"
-                            step="0.01"
-                            value={formData.price}
-                            onChange={(e) => handleInputChange('price', e.target.value)}
-                            className={validationErrors.price ? 'error' : ''}
-                        />
-                        {validationErrors.price && (
-                            <span className="error-text">{validationErrors.price}</span>
-                        )}
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="type">Produkttype:</label>
-                        <input
-                            id="type"
-                            type="text"
-                            value={formData.type}
-                            onChange={(e) => handleInputChange('type', e.target.value)}
-                            className={validationErrors.type ? 'error' : ''}
-                        />
-                        {validationErrors.type && (
-                            <span className="error-text">{validationErrors.type}</span>
-                        )}
-                    </div>
-
-                    <div className="form-actions">
-                        <button type="submit" className="btn-primary">
-                            {selectedProduct ? 'Opdater' : 'Opret'}
-                        </button>
-                        {selectedProduct && (
-                            <button 
-                                type="button" 
-                                onClick={resetForm}
-                                className="btn-secondary"
-                            >
-                                Annuller
-                            </button>
-                        )}
-                    </div>
-                </form>
-            </div>
-            */ }
 
             <div className="product-list-container">
                 <div className="list-header">
@@ -137,25 +60,13 @@ export const ProductView: React.FC = () => {
                     <div className="product-grid">
                         {products?.map(product => (
                             <div key={product.id} className="product-card">
-                                <div className="product-info">
-                                    <h3>{product.name}</h3>
-                                    <p className="price">{product.price.toFixed(2)} DKK</p>
-                                    <p className="type">{product.type}</p>
-                                </div>
-                                <div className="product-actions">
-                                    <button
-                                        onClick={() => selectProductForEdit(product)}
-                                        className="btn-edit"
-                                    >
-                                        Rediger
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(product.id)}
-                                        className="btn-delete"
-                                    >
-                                        Slet
-                                    </button>
-                                </div>
+                                <table className="product-info" width="100%">
+                                    <tr>
+                                        <td align='left'><h3>{product.name}</h3></td>
+                                        <td align='right'><p className="price">{product.price.toFixed(2)} DKK</p></td>
+                                        <td align='right'><p className="type">{product.type}</p></td>
+                                    </tr>
+                                </table>
                             </div>
                         ))}
                     </div>
