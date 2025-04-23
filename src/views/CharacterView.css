@@ -1,0 +1,235 @@
+.character-page {
+    /*max-width: 1600px;*/
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.error-message {
+    background-color: #fee;
+    border: 1px solid #fcc;
+    color: #e74c3c;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.character-container {
+    margin-top: 20px;
+}
+
+.list-header {
+    margin-bottom: 20px;
+}
+
+.sort-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sort-button {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    transition: all 0.2s;
+}
+
+.sort-button:hover {
+    background-color: #e9ecef;
+}
+
+.sort-button.active {
+    background-color: #e9ecef;
+    border-color: #3498db;
+    color: #2980b9;
+}
+
+.character-grid {
+    display: grid;
+    /*grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));*/
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.character-card {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+
+.character-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.character-info h3 {
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+    font-size: 1.2em;
+}
+
+.character-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.character-details p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.character-details strong {
+    color: #2c3e50;
+    margin-right: 5px;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* Responsivt design */
+@media (max-width: 768px) {
+    .character-page {
+        padding: 15px;
+    }
+    
+    .sort-controls {
+        flex-direction: column;
+    }
+    
+    .sort-button {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Mørkt tema */
+@media (prefers-color-scheme: dark) {
+    .character-page {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+    }
+
+    h1 {
+        color: #e0e0e0;
+    }
+
+    .character-card {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .character-info h3 {
+        color: #e0e0e0;
+    }
+
+    .character-details p {
+        color: #b0b0b0;
+    }
+
+    .character-details strong {
+        color: #e0e0e0;
+    }
+
+    .sort-button {
+        background-color: #2d2d2d;
+        border-color: #404040;
+        color: #e0e0e0;
+    }
+
+    .sort-button:hover {
+        background-color: #363636;
+    }
+
+    .sort-button.active {
+        background-color: #363636;
+        border-color: #3498db;
+        color: #3498db;
+    }
+
+    .loading-spinner {
+        color: #b0b0b0;
+    }
+}
+
+/* Tilgængelighed */
+@media (prefers-reduced-motion: reduce) {
+    .character-card {
+        transition: none;
+    }
+}
+
+/* Ny styling for billede og layout */
+.character-image {
+    flex: 0 0 180px; /* Fast bredde, ingen flex-grow eller shrink */
+    border-radius: 6px;
+    overflow: hidden;
+    order: -1; /* Tvinger billedet til venstre side */
+}
+
+.character-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: transparent;
+}
+
+.character-info {
+    flex: 1;
+    min-width: 0; /* Forhindrer overflow */
+}
+
+/* Opdater responsive design */
+@media (max-width: 480px) {
+    .character-image {
+        flex: 0 0 80px; /* Lidt mindre billede på små skærme */
+        height: 80px;
+    }
+    
+    .character-info {
+        width: 100%;
+    }
+}
+
+/* Opdater mørkt tema */
+@media (prefers-color-scheme: dark) {
+    .character-image {
+        background-color: transparent;
+        border: 1px solid #404040;
+    }
+}
+
+/* Tilføj loading animation for billeder */
+.character-image img {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+.character-image img.loaded {
+    opacity: 1;
+}
