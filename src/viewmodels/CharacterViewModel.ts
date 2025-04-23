@@ -16,14 +16,35 @@ export const useCharacterViewModel = () => {
         error: apiError
     } = useCharacter();
 
+    const [searchQuery, setSearchQuery] = useState('');
     const [sortField, setSortField] = useState<SortField>(SortField.NAME);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-    // Funktion til at håndtere sorterede karakterer
-    const sortedCharacters = useMemo(() => {
+    // Funktion til at håndtere søgning og sortering af karakterer
+    const reducedCharacters = useMemo(() => {
         if (!characters) return null;
 
-        return [...characters].sort((a, b) => {
+        // Filter characters based on a search query.
+        let reduced = characters;
+        const searchText = searchQuery.toLowerCase();
+        if (searchText) {
+            reduced = reduced.filter(character => {
+                const searchFields = [
+                    character.name.first,
+                    character.name.middle,
+                    character.name.last,
+                    character.age.toString(),
+                    character.species,
+                    character.occupation,
+                    character.gender,
+                    //...character.sayings.map(saying => saying)
+                ];
+
+                return searchFields.some(field => field.toLowerCase().includes(searchText));
+            });
+        }
+
+        return [...reduced].sort((a, b) => {
             let comparison = 0;
 
             switch (sortField) {
@@ -46,7 +67,7 @@ export const useCharacterViewModel = () => {
 
             return sortDirection === 'asc' ? comparison : -comparison;
         });
-    }, [characters, sortField, sortDirection]);
+    }, [characters, sortField, sortDirection, searchQuery]);
 
     // Funktion til at ændre sortering
     const handleSort = (field: SortField) => {
@@ -60,13 +81,15 @@ export const useCharacterViewModel = () => {
 
     return {
         // State
-        characters: sortedCharacters,
+        characters: reducedCharacters,
         loading,
         apiError,
 
         // Actions
         sortField,
         sortDirection,
-        handleSort
+        handleSort,
+        searchQuery,
+        setSearchQuery
     };
 };

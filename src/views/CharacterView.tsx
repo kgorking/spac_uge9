@@ -9,7 +9,9 @@ export const CharacterView: React.FC = () => {
         apiError,
         sortField,
         sortDirection,
-        handleSort
+        handleSort,
+        searchQuery,
+        setSearchQuery,
     } = useCharacterViewModel();
 
     // Tilføj state for citater
@@ -61,7 +63,7 @@ export const CharacterView: React.FC = () => {
 
     return (
         <div className="character-page">
-            <h1>Karakteroversigt</h1>
+            <h1>Futurama karakteroversigt</h1>
 
             {apiError && (
                 <div className="error-message">
@@ -71,6 +73,14 @@ export const CharacterView: React.FC = () => {
 
             <div className="character-container">
                 <div className="list-header">
+                    <input
+                        type="text"
+                        className="search-box"
+                        placeholder="Søg efter karakterer..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        aria-label="Søg efter karakterer"
+                    />
                     <div className="sort-controls">
                         <button 
                             className={`sort-button ${sortField === SortField.NAME ? 'active' : ''}`}
@@ -124,7 +134,7 @@ export const CharacterView: React.FC = () => {
                                     </div>
 
                                     <div className="character-info">
-                                        <h3>{character.name.last}, {character.name.first}</h3>
+                                        <h3>{character.name.last}, {character.name.first} {character.name.middle}</h3>
                                         <div className="character-details">
                                             <p><strong>Alder:</strong> {character.age} år</p>
                                             <p><strong>Køn:</strong> {character.gender}</p>
