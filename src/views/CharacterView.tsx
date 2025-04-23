@@ -12,6 +12,9 @@ export const CharacterView: React.FC = () => {
         handleSort
     } = useCharacterViewModel();
 
+    // Tilføj state for citater
+    const [sayingsIndex, setSayingsIndex] = React.useState<number>(0);
+
     // Hjælpefunktion til sorteringsindikator
     const getSortIndicator = (field: SortField) => {
         if (sortField !== field) return '⋮';
@@ -43,6 +46,17 @@ export const CharacterView: React.FC = () => {
                 }
             });
         };
+    }, [characters]);
+
+    // Opdater citaterne løbende
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            setSayingsIndex(prevState => {
+                return 1 + prevState;
+            });
+        }, 7500);
+
+        return () => clearInterval(timer);
     }, [characters]);
 
     return (
@@ -95,27 +109,35 @@ export const CharacterView: React.FC = () => {
                     <div className="loading-spinner">Indlæser karakterer...</div>
                 ) : (
                     <div className="character-grid">
-                        {characters?.map(character => (
-                            <div key={`${character.name.first}-${character.name.last}`} className="character-card">
-                                <div className="character-image">
-                                    <img
-                                        src={character.images.main}
-                                        alt={`${character.name.first} ${character.name.last}`}
-                                        loading="lazy"
-                                    />
-                                </div>
+                        {characters?.map(character => {
+                            const characterKey = `${character.name.first}-${character.name.last}`;
+                            const currentSayingIndex = sayingsIndex % character.sayings.length;
 
-                                <div className="character-info">
-                                    <h3>{character.name.last}, {character.name.first}</h3>
-                                    <div className="character-details">
-                                        <p><strong>Alder:</strong> {character.age} år</p>
-                                        <p><strong>Køn:</strong> {character.gender}</p>
-                                        <p><strong>Art:</strong> {character.species}</p>
-                                        <p><strong>Beskæftigelse:</strong> {character.occupation}</p>
+                            return (
+                                <div key={`${character.name.first}-${character.name.last}`} className="character-card">
+                                    <div className="character-image">
+                                        <img
+                                            src={character.images.main}
+                                            alt={`${character.name.first} ${character.name.last}`}
+                                            loading="lazy"
+                                        />
+                                    </div>
+
+                                    <div className="character-info">
+                                        <h3>{character.name.last}, {character.name.first}</h3>
+                                        <div className="character-details">
+                                            <p><strong>Alder:</strong> {character.age} år</p>
+                                            <p><strong>Køn:</strong> {character.gender}</p>
+                                            <p><strong>Art:</strong> {character.species}</p>
+                                            <p><strong>Beskæftigelse:</strong> {character.occupation}</p>
+                                            <p className="character-saying" onClick={() => setSayingsIndex(1+sayingsIndex)}>
+                                                <em key={`${characterKey}-${currentSayingIndex}`}>"{character.sayings[currentSayingIndex]}"</em>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
                 )}
             </div>

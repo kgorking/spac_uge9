@@ -233,3 +233,38 @@ h1 {
 .character-image img.loaded {
     opacity: 1;
 }
+.character-saying {
+    width: 400px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-style: italic;
+    color: #666;
+    min-height: 3em;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.character-saying em {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+    will-change: opacity, transform;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mørkt tema support */
+@media (prefers-color-scheme: dark) {
+    .character-saying {
+        border-top-color: #404040;
+        color: #b0b0b0;
+    }
+}
