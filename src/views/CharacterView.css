@@ -77,8 +77,8 @@ h1 {
 }
 
 .character-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    //transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0.4, 0, 1);
 }
 
 .character-info h3 {
@@ -90,8 +90,9 @@ h1 {
 .character-details {
     display: flex;
     flex-direction: column;
+    margin: 15px;
     gap: 8px;
-    //text-align: left;
+    text-align: left;
 }
 
 .character-details p {
@@ -186,15 +187,10 @@ h1 {
 
 /* Ny styling for billede og layout */
 .character-image {
-    flex: 0 0 180px; /* Fast bredde, ingen flex-grow eller shrink */
+    flex: 0 0 30%; /* Fast bredde, ingen flex-grow eller shrink */
     border-radius: 6px;
     overflow: hidden;
     order: -1; /* Tvinger billedet til venstre side */
-}
-
-.character-image img {
-    width: 100%;
-    height: 100%;
     object-fit: contain;
     display: block;
     background: transparent;
@@ -236,6 +232,8 @@ h1 {
 }
 .character-saying {
     width: 400px;
+    height: 100px;
+    align-items: center;
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid #eee;

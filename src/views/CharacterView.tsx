@@ -23,40 +23,13 @@ export const CharacterView: React.FC = () => {
         return sortDirection === 'asc' ? '↑' : '↓';
     };
 
-    React.useEffect(() => {
-        const images = document.querySelectorAll('.character-image img');
-
-        const handleImageLoad = (e: Event) => {
-            const img = e.target as HTMLImageElement;
-            img.classList.add('loaded');
-        };
-
-        images.forEach(img => {
-            if (img instanceof HTMLImageElement) {
-                if (img.complete) {
-                    img.classList.add('loaded');
-                } else {
-                    img.addEventListener('load', handleImageLoad);
-                }
-            }
-        });
-
-        return () => {
-            images.forEach(img => {
-                if (img instanceof HTMLImageElement) {
-                    img.removeEventListener('load', handleImageLoad);
-                }
-            });
-        };
-    }, [characters]);
-
     // Opdater citaterne løbende
     React.useEffect(() => {
         const timer = setInterval(() => {
             setSayingsIndex(prevState => {
                 return 1 + prevState;
             });
-        }, 7500);
+        }, 10000);
 
         return () => clearInterval(timer);
     }, [characters]);
@@ -120,18 +93,14 @@ export const CharacterView: React.FC = () => {
                 ) : (
                     <div className="character-grid">
                         {characters?.map(character => {
-                            const characterKey = `${character.name.first}-${character.name.last}`;
                             const currentSayingIndex = sayingsIndex % character.sayings.length;
 
                             return (
-                                <div key={`${character.name.first}-${character.name.last}`} className="character-card">
-                                    <div className="character-image">
-                                        <img
-                                            src={character.images.main}
-                                            alt={`${character.name.first} ${character.name.last}`}
-                                            loading="lazy"
-                                        />
-                                    </div>
+                                <div className="character-card">
+                                    <img className="character-image"
+                                        src={character.images.main}
+                                        alt={`${character.name.first} ${character.name.last}`}
+                                    />
 
                                     <div className="character-info">
                                         <h3>{character.name.last}, {character.name.first} {character.name.middle}</h3>
@@ -141,7 +110,7 @@ export const CharacterView: React.FC = () => {
                                             <p><strong>Art:</strong> {character.species}</p>
                                             <p><strong>Beskæftigelse:</strong> {character.occupation}</p>
                                             <p className="character-saying" onClick={() => setSayingsIndex(1+sayingsIndex)}>
-                                                <em key={`${characterKey}-${currentSayingIndex}`}>"{character.sayings[currentSayingIndex]}"</em>
+                                                <em key={currentSayingIndex}>"{character.sayings[currentSayingIndex]}"</em>
                                             </p>
                                         </div>
                                     </div>
