@@ -31,7 +31,7 @@ export const useCharacter = () => {
             if (!response.ok) {
                 throw new Error('Kunne ikke hente karakterer');
             }
-            const data = await response.json();
+            const data: Character[] = await response.json();
             setState({ data, error: null, loading: false });
         } catch (error) {
             setState({
@@ -44,7 +44,7 @@ export const useCharacter = () => {
 
     // Hent karakterer ved komponent montering
     useEffect(() => {
-        fetchCharacters();
+        fetchCharacters().then();
     }, []);
 
     return {
