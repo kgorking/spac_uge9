@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useCharacter } from '../hooks/CharacterHook.ts';
+import {Character} from "../models/Character.ts";
 
 export enum SortField {
     NAME = 'name',
@@ -25,7 +26,7 @@ export const useCharacterViewModel = () => {
         if (!characters) return null;
 
         // Filter characters based on a search query.
-        let reduced = characters;
+        let reduced : Character[] = characters;
         const searchText = searchQuery.toLowerCase();
         if (searchText) {
             reduced = reduced.filter(character => {
@@ -58,10 +59,10 @@ export const useCharacterViewModel = () => {
                     comparison = a.gender.localeCompare(b.gender);
                     break;
                 case SortField.SPECIES:
-                    comparison = a.species.localeCompare(b.gender);
+                    comparison = a.species.localeCompare(b.species);
                     break;
                 case SortField.OCCUPATION:
-                    comparison = a.occupation.localeCompare(b.gender);
+                    comparison = a.occupation.localeCompare(b.occupation);
                     break;
             }
 
