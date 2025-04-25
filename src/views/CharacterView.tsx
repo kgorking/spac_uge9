@@ -19,7 +19,7 @@ export const CharacterView: React.FC = () => {
 
     // Hjælpefunktion til sorteringsindikator
     const getSortIndicator = (field: SortField) => {
-        if (sortField !== field) return '⋮';
+        if (sortField !== field) return '';
         return sortDirection === 'asc' ? '↑' : '↓';
     };
 
@@ -51,36 +51,15 @@ export const CharacterView: React.FC = () => {
                         aria-label="Søg efter karakterer"
                     />
                     <div className="sort-controls">
-                        <button 
-                            className={`sort-button ${sortField === SortField.NAME ? 'active' : ''}`}
-                            onClick={() => handleSort(SortField.NAME)}
-                        >
-                            Navn {getSortIndicator(SortField.NAME)}
-                        </button>
-                        <button 
-                            className={`sort-button ${sortField === SortField.AGE ? 'active' : ''}`}
-                            onClick={() => handleSort(SortField.AGE)}
-                        >
-                            Alder {getSortIndicator(SortField.AGE)}
-                        </button>
-                        <button 
-                            className={`sort-button ${sortField === SortField.GENDER ? 'active' : ''}`}
-                            onClick={() => handleSort(SortField.GENDER)}
-                        >
-                            Køn {getSortIndicator(SortField.GENDER)}
-                        </button>
-                        <button 
-                            className={`sort-button ${sortField === SortField.SPECIES ? 'active' : ''}`}
-                            onClick={() => handleSort(SortField.SPECIES)}
-                        >
-                            Art {getSortIndicator(SortField.SPECIES)}
-                        </button>
-                        <button 
-                            className={`sort-button ${sortField === SortField.OCCUPATION ? 'active' : ''}`}
-                            onClick={() => handleSort(SortField.OCCUPATION)}
-                        >
-                            Beskæftigelse {getSortIndicator(SortField.OCCUPATION)}
-                        </button>
+                        {Object.values(SortField).map(field => (
+                            <button
+                            className={`sort-button ${sortField === field ? 'active' : ''}`}
+                                onClick={() => handleSort(field)}
+                                key={field}
+                            >
+                                {field} {getSortIndicator(field)}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
@@ -107,7 +86,7 @@ export const CharacterView: React.FC = () => {
                                             <p><strong>Art:</strong> {character.species}</p>
                                             <p><strong>Beskæftigelse:</strong> {character.occupation}</p>
                                             <p className="character-saying" onClick={() => setSayingCounter(1+sayingCounter)}>
-                                                <em key={currentSayingIndex}>"{saying}"</em>
+                                                <em key={currentSayingIndex}>"{saying}" - {character.name.first} {character.name.middle} {character.name.last}</em>
                                             </p>
                                         </div>
                                     </div>

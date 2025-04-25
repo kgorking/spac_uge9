@@ -3,11 +3,11 @@ import { useCharacter } from '../hooks/CharacterHook.ts';
 import { Character } from "../models/Character.ts";
 
 export enum SortField {
-    NAME = 'name',
-    AGE = 'age',
-    GENDER = 'gender',
-    SPECIES = 'species',
-    OCCUPATION = 'occupation'
+    NAME = 'Navn',
+    AGE = 'Alder',
+    GENDER = 'Køn',
+    SPECIES = 'Art',
+    OCCUPATION = 'Beskæftigelse'
 }
 
 export const useCharacterViewModel = () => {
