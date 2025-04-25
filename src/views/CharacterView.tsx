@@ -6,7 +6,7 @@ export const CharacterView: React.FC = () => {
     const {
         characters,
         loading,
-        apiError,
+        error,
         sortField,
         sortDirection,
         handleSort,
@@ -15,7 +15,7 @@ export const CharacterView: React.FC = () => {
     } = useCharacterViewModel();
 
     // Tilføj state for citater
-    const [sayingsIndex, setSayingsIndex] = React.useState<number>(0);
+    const [sayingCounter, setSayingCounter] = React.useState<number>(0);
 
     // Hjælpefunktion til sorteringsindikator
     const getSortIndicator = (field: SortField) => {
@@ -23,14 +23,10 @@ export const CharacterView: React.FC = () => {
         return sortDirection === 'asc' ? '↑' : '↓';
     };
 
-    // Opdater citaterne løbende
+    // Opdater citat tælleren
     React.useEffect(() => {
-        const timer = setInterval(() => {
-            setSayingsIndex(prevState => {
-                return 1 + prevState;
-            });
-        }, 10000);
-
+        const updateCounter = () => { setSayingCounter(prevState => 1 + prevState); };
+        const timer = setInterval(updateCounter, 10000);
         return () => clearInterval(timer);
     }, [characters]);
 
@@ -38,9 +34,9 @@ export const CharacterView: React.FC = () => {
         <div className="character-page">
             <h1>Futurama karakteroversigt</h1>
 
-            {apiError && (
+            {error && (
                 <div className="error-message">
-                    <p>{apiError}</p>
+                    <p>{error}</p>
                 </div>
             )}
 
@@ -93,7 +89,8 @@ export const CharacterView: React.FC = () => {
                 ) : (
                     <div className="character-grid">
                         {characters?.map(character => {
-                            const currentSayingIndex = sayingsIndex % character.sayings.length;
+                            const currentSayingIndex = sayingCounter % character.sayings.length;
+                            const saying = character.sayings[currentSayingIndex];
 
                             return (
                                 <div className="character-card">
@@ -109,8 +106,8 @@ export const CharacterView: React.FC = () => {
                                             <p><strong>Køn:</strong> {character.gender}</p>
                                             <p><strong>Art:</strong> {character.species}</p>
                                             <p><strong>Beskæftigelse:</strong> {character.occupation}</p>
-                                            <p className="character-saying" onClick={() => setSayingsIndex(1+sayingsIndex)}>
-                                                <em key={currentSayingIndex}>"{character.sayings[currentSayingIndex]}"</em>
+                                            <p className="character-saying" onClick={() => setSayingCounter(1+sayingCounter)}>
+                                                <em key={currentSayingIndex}>"{saying}"</em>
                                             </p>
                                         </div>
                                     </div>
